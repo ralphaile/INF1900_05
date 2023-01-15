@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Cours inf1900: programmation en C/C++ d'un robot fonctionnant avec un AVR d'Atmel">
+    <meta name="keywords" content="Robot,education,ressource educative libre,AVR,opensource,Universitaire,Programmation, génie informatique et génie logiciel">
+    <meta name="author" content="Jérôme Collin">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="icon" type="image/png" href="https://cours.polymtl.ca/inf1900/images/favicon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="https://cours.polymtl.ca/inf1900/images/favicon-144x144.png" sizes="144x144">
+    <link rel="icon" type="image/x-icon" href="https://cours.polymtl.ca/inf1900/images/favicon-96x96.ico" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://cours.polymtl.ca/inf1900/images/favicon.png" sizes="32x32">
+    <link rel="icon" type="image/x-icon" href="https://cours.polymtl.ca/inf1900/images/favicon-16x16.ico" sizes="16x16">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+    <link href="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <script src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/jquery-2.0.2.min.js"></script>
+    <script src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/font-awesome.min.css">
+
+
+    <link rel="stylesheet/less" type="text/css" href="https://cours.polymtl.ca/inf1900/ressources/css/style.less"><style type="text/css" id="less:inf1900-ressources-css-style">body {
+  background: url('/inf1900/images/mb_gris_moyen_b.png') fixed;
+}
+.alpha {
+  margin-left: 0;
+}
+.omega {
+  margin-right: 0;
+}
+ul#mainBreadCrumb {
+  display: none;
+}
+.header {
+  margin-top: 10px;
+}
+.header .top {
+  height: 40px;
+  background: #b91e32;
+}
+.header .top img {
+  height: 20px;
+  margin-top: 10px;
+}
+.header .top .span6.right {
+  margin-left: 0px;
+  margin-right: 20px;
+}
+.header .top .span6.right .quicklinks {
+  margin-top: 5px;
+}
+.header .middle {
+  background: #FFFFFF;
+  height: 66px;
+}
+.header .middle img {
+  margin-top: 10px;
+}
+.header .middle .span7 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.header .middle .span5.right {
+  margin-left: 0px;
+  margin-right: 20px;
+}
+.header .middle .span5.right .searchbox .input-append {
+  margin-top: 5px;
+}
+.header .bottom {
+  background: #FFFFFF;
+  padding-bottom: 10px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.header .bottom .contacts {
+  font-size: 14px;
+  margin: 0;
+  border: none;
+  padding: 0px;
+}
+.header .bottom .contacts .first {
+  font-weight: bold;
+}
+.header .bottom .contacts dt {
+  text-align: left;
+}
+.header .bottom .contacts td,
+.header .bottom .contacts tr {
+  border: none;
+  padding: 0px;
+  padding-bottom: 2px;
+}
+.header .bottom .contacts td.charges_labo_section {
+  font-weight: bold;
+}
+.header .bottom .span4.right {
+  margin-left: 0px;
+  margin-right: 20px;
+}
+.header .bottom .span4.right img {
+  height: 100px;
+  margin-top: 25px;
+}
+.header .bottom h5 {
+  border-bottom: 1px solid #252525;
+}
+.container.main-menu {
+  margin-top: 5px;
+  height: 40px;
+  margin-bottom: 8px;
+}
+.container.main-menu .navbar-inner {
+  background: #fa961e;
+  border-radius: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.container.main-menu .navbar-inner ul.nav li.dropdown > ul.dropdown-menu {
+  top: 38px;
+}
+.container.main-menu .navbar-inner ul.nav > li > a {
+  color: #fff;
+  text-shadow: none;
+  font-size: 12px;
+  padding-left: 13px;
+  padding-right: 14px;
+}
+.container.main-menu .navbar-inner ul.nav > li:focus {
+  outline: none;
+}
+.container.main-menu .navbar-inner ul.nav > li:hover > a {
+  background: #fdb224;
+  color: #000;
+}
+.container.main-menu .navbar-inner ul.nav > li.active > a,
+.container.main-menu .navbar-inner ul.nav > li.open.active > a {
+  background: #fdb224;
+  color: #000;
+}
+.container.main-menu .navbar-inner ul.nav > li.home > a {
+  font-size: 20px;
+}
+.container.content-container .row {
+  background: #FFFFFF;
+  padding: 20px;
+}
+.skinfooter {
+  min-height: 30px;
+  font-size: 9.5pt;
+  padding: 6px 0px 0px 0px;
+  text-decoration: none;
+  text-align: center;
+  max-width: 1024px;
+}
+.skinfooter .row {
+  background-color: #b91e32;
+}
+a.skinfooteritem {
+  text-decoration: none;
+  font-variant: normal;
+  font-family: Helvetica, Arial, "Helvetica Neue", sans-serif;
+  padding: 10px 20px;
+  color: #fa961e;
+}
+a.skinfooteritem:hover,
+a.skinfooteritem.active {
+  color: #ffffff;
+}
+#popupPhotos {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  width: 760px;
+  margin-left: -400px;
+}
+body {
+  font-size: 16px;
+}
+</style>
+    <script src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/less-1.4.1.min.js"></script>
+
+    <script src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/functions.js"></script>
+
+    <link rel="stylesheet" href="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/video_player.css">
+    <script src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/video_player.js"></script>
+
+    <title>inf1900: génie informatique et génie logiciel - Polytechnique Montréal</title>
+</head>
+
+<body dir="ltr" vlink="#800000" link="#000080" lang="fr-CA">
+<div class="container header">
+    <div class="row top">
+        <div class="span6">
+            <a href="http://www.polymtl.ca/gigl/"><img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/genie_info_log.png"></a>
+        </div>
+        <div class="span6 right text-right">
+            <div class="form-horizontal quicklinks">
+                <select class="span3">
+                    <option value="-1" selected="selected">Liens Rapides</option>
+                    <option value="https://moodle.polymtl.ca"> Moodle
+                    </option><option value="https://www.polymtl.ca/"> polymtl.ca
+                    </option><option value="https://www.polymtl.ca/programmes/cours/"> Cours et horaire
+                    </option><option value="https://www.nongnu.org/avr-libc/user-manual/modules.html"> AVRLibC
+                    </option><option value="https://www.microchip.com"> Microchip - Atmel
+                    </option><option value="https://dossieretudiant.polymtl.ca/"> Dossier étudiant
+                    </option><option value="https://www.imp.polymtl.ca/login.php"> Courriel IMP
+                    </option><option value="https://zimbra.polymtl.ca/"> Zimbra
+                </option></select>
+
+            </div>
+        </div>
+    </div>
+    <div class="row middle">
+        <div class="span7">
+            <a href="https://cours.polymtl.ca/inf1900"><img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/inf1900.png"></a>
+        </div>
+        <div class="span5 right text-right">
+            <div class="searchbox">
+                <label class="radio inline">
+                    <input checked="checked" type="radio" name="search-engine" value="https://cours.polymtl.ca/inf1900/"> INF1900
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="search-engine" value="https://www.nongnu.org/avr-libc/"> AVRLibC
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="search-engine" value="https://www.microchip.com"> Microchip.com
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="search-engine" value="https://www.google.com"> Google
+                </label>
+                <div class="input-append">
+                    <input class="span3 searchquery" id="appendedInputButton" type="text">
+                    <button class="btn search btn-primary" type="button">Recherche</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row bottom">
+        <div class="span8">
+            <h5>Contacts</h5>
+            <table class="table table-condensed contacts">
+                <tbody><tr>
+                    <td class="first">Enseignant:</td>
+                    <td colspan="2">
+                        <a href="mailto:jerome.collin@polymtl.ca">Jérôme Collin</a>, responsable (local M-4013, poste 5060)<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">Support technique supplémentaire:</td>
+                    <td colspan="2"><a href="mailto:laurent.tremblay@polymtl.ca">Laurent Tremblay</a> (local M-4011, poste 7181)</td>
+                </tr>
+
+                <tr>
+                    <td class="first">Chargés de laboratoire:</td>
+                    <td class="charges_labo_section">Section 1:</td>
+                    <td>
+                        <a href="mailto:dorine-kim-ngoc-diep.dantrun@polymtl.ca">Dorine Dantrun</a> (Lundi AM) <br>
+                        <a href="mailto:justine.ouellette@polymtl.ca">Justine Ouellette</a> (Mercredi PM)
+                    </td>
+                 </tr>
+
+                <tr>
+                    <td> </td>
+                    <td class="charges_labo_section">Section 2:</td>
+                    <td>
+                        <a href="mailto:ghali.chraibi@polymtl.ca">Ghali Chraibi</a> (Mardi PM) <br>
+                        <a href="mailto:paul.petibon@polymtl.ca">Paul Petibon</a> (Jeudi AM)
+                    </td>
+                 </tr>
+
+                <tr>
+                    <td> </td>
+                    <td class="charges_labo_section">Section 3:</td>
+                    <td>
+                        <a href="mailto:julien.bourque@polymtl.ca">Julien Bourque</a> (Lundi PM) <br>
+                        <a href="mailto:raphael-1.tremblay@polymtl.ca">Raphaël Tremblay</a> (Jeudi PM)
+                    </td>
+                 </tr>
+
+                <tr>
+                    <td> </td>
+                    <td class="charges_labo_section">Section 4:</td>
+                    <td>
+                        <a href="mailto:tristan.rioux@polymtl.ca">Tristan Rioux</a> (Mardi AM) <br>
+                        <a href="mailto:sunnee.chevalier@polymtl.ca">Sunnee Chevalier</a> (Vendredi AM)
+                    </td>
+                 </tr>
+
+                <tr>
+                    <td> </td>
+                    <td class="charges_labo_section">Section 5:</td>
+                    <td>
+                        <a href="mailto:stefan.cotargasanu@polymtl.ca">Stefan Cotargasanu</a> (Mercredi AM) <br>
+                        <a href="mailto:romain.lebbadi-breteau@polymtl.ca">Romain Lebbadi-Breteau</a> (Vendredi PM)
+                    </td>
+                 </tr>
+                 
+                <tr>
+                    <td> </td>
+                    <td class="charges_labo_section">Section 6:</td>
+                    <td>
+                        <a href="mailto:xavier.caron@polymtl.ca">Xavier Caron</a> (Mardi soir) <br>
+                        <a href="mailto:charles.de-lafontaine@polymtl.ca">Charles De Lafontaine</a> (Jeudi soir)
+                    </td>
+                 </tr>
+
+            </tbody></table>
+        </div>
+        <div class="span4 text-right right">
+            <a href="http://www.polymtl.ca/"><img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/logo_poly.png"></a>
+        </div>
+        <div class="span4"></div>
+    </div>
+</div>
+
+<div class="container main-menu">
+    <div class="row main-menu">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <ul class="nav">
+
+                    <li>
+                        <a href="https://cours.polymtl.ca/inf1900/planCours/">PLAN DE COURS</a>
+                    </li>
+                    <li class="dropdown active">
+                        <a class="dropdown-toggle" id="drop1" role="button" data-toggle="dropdown" data-target="/inf1900/tp/" href="https://cours.polymtl.ca/inf1900/tp/">
+                            TRAVAUX PRATIQUES
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+
+                            <li class="active"><a href="https://cours.polymtl.ca/inf1900/tp/tp1/">TP 1</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/tp/tp2/">TP 2</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/tp/tp3/">TP 3</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/tp/tp4/">TP 4</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/tp/tp5/">TP 5</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/tp/tp6/">TP 6</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/tp/tp7/">TP 7</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/tp/tp8/">TP 8</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/tp/tp9/">TP 9</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/tp/projet/">Projet</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" id="drop2" role="button" data-toggle="dropdown" data-target="/inf1900/materiel/" href="https://cours.polymtl.ca/inf1900/materiel/">
+                            MATÉRIEL
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="drop2">
+                            <li><a href="https://cours.polymtl.ca/inf1900/materiel/pieces/">Pièces</a></li>
+                            <li class="dropdown-submenu">
+                                <a href="https://cours.polymtl.ca/inf1900/materiel/montage/">Montage</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="https://cours.polymtl.ca/inf1900/materiel/montage/pontH/">Pont en H</a></li>
+                                    <li><a href="https://cours.polymtl.ca/inf1900/materiel/montage/carteMere/">Carte mère</a></li>
+                                    <li><a href="https://cours.polymtl.ca/inf1900/materiel/montage/rouesMoteurs/">Roues, Moteurs, Engrenages</a></li>
+                                    <li><a href="https://cours.polymtl.ca/inf1900/materiel/montage/sertissage/">Sertissage des fils</a></li>
+                                    <li><a href="https://cours.polymtl.ca/inf1900/materiel/montage/robot/">Robot complet</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/materiel/carteMC/">Carte Mère</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/materiel/pontH/">Pont en H</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/materiel/demarrage/">Démarrer avec le robot</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/materiel/debugPontH/">Débogage du pont en H</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/materiel/debugCarteMC/">Débogage de la carte mère</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/materiel/circuitsDeBase/">Circuits de base</a></li>
+                            <li class="dropdown-submenu">
+                                <a href="https://cours.polymtl.ca/inf1900/materiel/capteurs/">Capteurs</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="https://cours.polymtl.ca/inf1900/materiel/capteurs/montage/">Montage de support</a></li>
+                                    <li><a href="https://cours.polymtl.ca/inf1900/materiel/capteurs/infrarouge">Infrarouge</a></li>
+                                    <li><a href="https://cours.polymtl.ca/inf1900/materiel/capteurs/moteurs/">Moteurs</a></li>
+                                    <li><a href="https://cours.polymtl.ca/inf1900/materiel/capteurs/breadboard/">Sur breadbord</a></li>
+                                    <li><a href="https://cours.polymtl.ca/inf1900/materiel/capteurs/autres/">Autres</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" id="drop3" role="button" data-toggle="dropdown" data-target="/inf1900/logiciel/" href="https://cours.polymtl.ca/inf1900/logiciel/">
+                            LOGICIEL
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="drop3">
+                            <li><a href="https://cours.polymtl.ca/inf1900/logiciel/installation/">Installation des logiciels</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/logiciel/firmware/">Micrologiciel</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/logiciel/progAvr/">Programmation des microcontrôleurs AVR</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/logiciel/simulation/">Le simulateur SimulIDE</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/logiciel/qualiteCode/">Qualité du code</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                    </li><li class="dropdown ">
+                        <a class="dropdown-toggle" id="drop4" role="button" data-toggle="dropdown" data-target="/inf1900/guides/" href="https://cours.polymtl.ca/inf1900/guides/">
+                            GUIDES
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="drop4">
+                            <li><a href="https://cours.polymtl.ca/inf1900/guides/editeurs/">Éditeurs</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/guides/outils/">Outils fournis</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/guides/coffre/">Articles à acheter</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/guides/guideMontage/">Guide de montage</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/guides/station/">Soudage/Déssoudage</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/guides/mesure/">Appareils de mesure</a></li>
+                            <li><a href="https://cours.polymtl.ca/inf1900/guides/debug/">Mise au point</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="https://cours.polymtl.ca/inf1900/fichiers/">FICHIERS</a>
+                    </li>
+                    <li>
+                        <a href="https://cours.polymtl.ca/inf1900/video/">VIDÉOS</a>
+                    </li>
+                    <li>
+                        <a href="https://cours.polymtl.ca/inf1900/references/">RÉFÉRENCES</a>
+                    </li>
+                    <li>
+                        <a href="https://cours.polymtl.ca/inf1900/evaluation/">ÉVALUATION</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container content-container">
+    <div class="row">
+        <ul class="breadcrumb" id="mainBreadCrumb" style="display: block;"><li><a href="https://cours.polymtl.ca/inf1900">Accueil</a><span class="divider">/</span></li><li><a href="https://cours.polymtl.ca/inf1900/tp/">Travaux pratiques</a><span class="divider">/</span></li><li class="active">TP 1</li>
+
+        </ul>
+
+
+
+
+
+
+
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title></title>
+	<meta name="generator" content="LibreOffice 7.3.5.2 (Linux)">
+	<meta name="created" content="2005-05-09T16:45:27">
+	<meta name="changed" content="2022-08-22T21:24:59.708211336">
+	<meta name="Info 1" content="">
+	<meta name="Info 2" content="">
+	<meta name="Info 3" content="">
+	<meta name="Info 4" content="">
+	<meta name="sdfootnote" content=";;;;P">
+	<meta name="sdendnote" content="ARABIC">
+	<style type="text/css"></style>
+
+<p style="margin-bottom: 0cm" align="center">
+<font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>INF1900</b></font></font></p>
+<p style="margin-bottom: 0cm" align="center"><font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>Projet
+initial de système embarqué</b></font></font></p>
+<p style="margin-bottom: 0cm" align="center"><font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>Travail
+pratique No. 1</b></font></font></p>
+<p style="margin-bottom: 0cm" align="center"> <font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>Introduction
+à la carte mère et à SimulIDE</b></font></font></p>
+<p style="margin-bottom: 0cm" align="center"><br>
+
+</p>
+<hr>
+
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><b>Objectif</b>:
+ Faire les premiers pas avec la programmation d’un microcontrôleur</font></p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><b>Durée</b>:
+ Une semaine </font>
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><b>Travail
+préparatoire</b>: Lecture de certains documents du site web du cours</font></p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><b>Documents
+à remettre</b>: Aucun.</font></p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><b>Présentation</b></font><font face="Arial, sans-serif"><b>s</b></font><font face="Arial, sans-serif"><b>
+en classe</b></font><font face="Arial, sans-serif">: </font>
+</p>
+<table width="758" cellspacing="0" cellpadding="5">
+	<colgroup><col width="170">
+
+	<col width="568">
+
+	</colgroup><tbody><tr valign="top">
+		<td style="border: none; padding: 0cm" width="170">
+			<ul><p></p>
+			</ul>
+		</td>
+		<td style="border: none; padding: 0cm" width="568">
+			<ul><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Introduction
+				au cours: </font><font face="Arial, sans-serif"><a href="https://cours.polymtl.ca/inf1900/tp/tp1/intro.pptx">fichier
+				PowerPoint</a>  </font>
+				</p>
+				</li><li><p><font face="Arial, sans-serif">I</font><font face="Arial, sans-serif">ntroduction
+				au travail pratique 1: </font><font face="Arial, sans-serif"><a href="https://cours.polymtl.ca/inf1900/tp/tp1/tp1.pptx">fichier
+				PowerPoint</a>  </font>
+				</p>
+			</li></ul>
+		</td>
+	</tr>
+</tbody></table>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<hr>
+
+<center>
+	<table width="841" cellspacing="0" cellpadding="0">
+		<colgroup><col width="99">
+
+		<col width="743">
+
+		</colgroup><tbody><tr>
+			<td colspan="2" style="background: transparent; border: none; padding: 0cm" width="841" valign="top"><p align="left">
+				<font face="Arial, sans-serif"><font style="font-size: 12pt" size="3"><span style="font-weight: normal">«</span></font></font><strong><font face="Arial, sans-serif"><font style="font-size: 12pt" size="3"><span style="font-weight: normal">Ce
+				n’est pas le rôle de l’entraîneur de motiver les joueurs.
+				Les inspirer, oui. Les motiver? Non.</span></font></font></strong></p>
+				<p align="left"><strong><font face="Arial, sans-serif"><font style="font-size: 12pt" size="3"><span style="font-weight: normal">La
+				clé pour gagner, c’est d’embaucher des joueurs qui sont
+				intrinsèquement motivés par la victoire. Un entraîneur ne peut
+				pas transmettre artificiellement sa motivation. Elle doit venir
+				des joueurs eux-mêmes.</span></font></font></strong></p>
+				<p align="left"><strong><font face="Arial, sans-serif"><font style="font-size: 12pt" size="3"><span style="font-weight: normal">J’ai
+				toujours pensé que chaque entraîneur devait diriger son équipe
+				en étant authentique. Pour cette raison, j’ai toujours parlé
+				aux joueurs avec mon cœur. Je disais ce que je pensais qu’il
+				fallait pour gagner des matchs.</span></font></font></strong></p>
+				<p align="left"><strong><font face="Arial, sans-serif"><font style="font-size: 12pt" size="3"><span style="font-weight: normal">Je
+				n’ai jamais prononcé de grand discours de motivation. Je n’ai
+				jamais demandé à mes joueurs s’ils avaient la volonté de
+				gagner. Je préférais leur demander s’ils avaient la volonté
+				de se préparer pour gagner.</span></font></font></strong></p>
+				<p align="left"><strong><font face="Arial, sans-serif"><font style="font-size: 12pt" size="3"><span style="font-weight: normal">Car
+				si vous n’êtes pas prêt à faire tous les sacrifices pour
+				vous préparer, vous ne gagnerez pas.</span></font></font></strong><font face="Arial, sans-serif"><font style="font-size: 12pt" size="3"><span style="font-weight: normal">»</span></font></font></p>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td style="border: none; padding: 0cm" width="99"><p align="right">
+				<font face="Arial, sans-serif"><i>-</i></font></p>
+			</td>
+			<td style="border: none; padding: 0cm" width="743"><p align="left">
+				<font face="Arial, sans-serif"><i>Marv Leavy</i></font></p>
+				<p align="left"><font face="Arial, sans-serif"><i>entraîneur-chef
+				des Alouettes de Montréal pendant 5 ans, puis dans la NFL
+				pendant 17 saisons avec les Chiefs de Kansas City et les Bills de
+				Buffalo.</i></font></p>
+			</td>
+		</tr>
+	</tbody></table>
+</center>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>Premier
+programme et compréhension générale du système</b></font></font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">La
+première étape sera d’<a href="https://cours.polymtl.ca/inf1900/logiciel/installation/" target="_blank">installer
+les outils nécessaires</a> au cours.  </font><font face="Arial, sans-serif">Il
+faudra lire certains documents pour comprendre la <a href="https://cours.polymtl.ca/inf1900/materiel/carteMC" target="_blank">carte
+à microcontrôleurs</a> et la <a href="https://cours.polymtl.ca/inf1900/logiciel/progAvr" target="_blank">programmation
+des microcontrôleurs AVR</a>.  La lecture des documents est
+essentielle pour ce travail pratique, mais aussi pour ceux à venir. 
+</font><font face="Arial, sans-serif">Il faudra aussi comprendre
+comment fonctionne le <a href="https://cours.polymtl.ca/inf1900/logiciel/simulation/" target="_blank">simulateur
+SimulIDE</a>.  Lire uniquement les sections «SimulIDE» et
+«Utilisation de SimulIDE».</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">De plus,
+</font><font face="Arial, sans-serif">il suffit d’utiliser le câble
+USB pour alimenter électriquement la carte.  Ce câble  servira
+aussi à programmer la carte</font><font face="Arial, sans-serif">. 
+Il n'est pas nécessaire de comprendre les appareils de laboratoire
+pour l'instant, car ils seront introduits dans les semaines
+suivantes, quand le contexte sera plus favorable.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">C</font><font face="Arial, sans-serif">omment,
+au minimum, comprendre comment fonctionne le robot ?  <a href="https://cours.polymtl.ca/inf1900/materiel/demarrage/" target="_blank">Pour
+débuter avec le robot</a> en offre une partie de l’explication. 
+</font><font face="Arial, sans-serif">Par contre, i</font><font face="Arial, sans-serif">l
+faut noter que la partie motrice du robot (par le pont-en-H) sera
+plutôt abordée dans les semaines à venir.  On p</font><font face="Arial, sans-serif">ourra</font><font face="Arial, sans-serif">
+donc y revenir plus tard </font><font face="Arial, sans-serif">même
+si votre curiosité peut vous pousser à le parcourir dès
+maintenant.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Pour
+voir si l’installation des logiciels a mené à un système qui
+fonctionne bien, tout en prenant contact pour la première fois avec
+le simulateur, il convient de commencer le travail de programmation
+par des exercices simples.  Le premier consistera à allumer et
+éteindre des diodes électroluminescentes (DEL) pour s'initier aux
+sorties.  Pour ce qui est des entrées, un simple bouton-poussoir
+sera utilisé.  </font>
+</p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Pour
+arriver à programmer le microcontrôleur, il faudra commencer par se
+familiariser avec <a href="https://cours.polymtl.ca/inf1900/guides/editeurs/" target="_blank">sous
+Linux</a>.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>Environnement
+de programmation</b></font></font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Le
+microcontrôleur reste fondamentalement un processeur.  Il peut donc
+être programmé comme n'importe quel autre système à
+microprocesseur, comme un ordinateur personnel par exemple. 
+Cependant, à la différence d'un ordinateur de bureau, il ne vient
+pas avec un clavier, un écran et une souris, ce qui le rend un peu
+difficile d'accès.  Pour arriver à lui donner des instructions, on
+peut utiliser un compilateur courant, tel GCC par exemple.  On
+compilera le code sur un PC de la même manière dont on le ferait
+pour le développement d'une application Windows, Linux ou Mac.  La
+seule différence est que le fichier exécutable produit sur le PC
+doit être téléchargé sur le microcontrôleur.  Le PC ne peut
+d'ailleurs même pas exécuter le fichier binaire directement, car
+les jeux d'instructions du microcontrôleur et du microprocesseur du
+PC sont différents et incompatibles.  Techniquement, on dit d'un tel
+compilateur qu'il est un compilateur croisé (<i>cross-compiler</i>
+en anglais) puisqu'il génère des fichiers binaires pour une
+plate-forme différente de celle sur laquelle il évolue lui-même.  </font>
+</p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Dans le
+cas qui nous concerne, nous travaillerons sous Linux en employant GCC
+pour compiler.  Que l’on utilise la carte mère ou le simulateur,
+il y a peu de différences dans les  étapes à suivre de sorte qu’on
+donnera ici la procédure à suivre pour les deux tout en soulignant
+les différences uniquement lorsque nécessaire.  On vous encourage à
+maîtriser les deux outils.  On peut tout de même arriver à la
+compilation du code sans aucune différence entre les deux façons de
+faire.  Ce n’est que le chargement de l’exécutable dans le
+système et l’exécution qui diffère légèrement par la suite.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><u>L’éditeur</u></font><font face="Arial, sans-serif">:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">S</font><font face="Arial, sans-serif">auve</font><font face="Arial, sans-serif">garder
+le <a href="https://cours.polymtl.ca/inf1900/tp/tp1/compteur32bits.cpp" target="_blank">fichier
+C/C++</a> qui suit sous un certain nom dans un répertoire de votre
+choix. </font><font face="Arial, sans-serif">Il vous faudra prend
+l’</font><font face="Arial, sans-serif">éditeur </font><font face="Arial, sans-serif">VS
+Code </font><font face="Arial, sans-serif">pour pouvoir regarder le
+contenu de ce fichier.  Vous pouvez prendre le temps qu'il faut pour
+</font><font face="Arial, sans-serif">installer et </font><font face="Arial, sans-serif">voir
+comment fonctionne </font><font face="Arial, sans-serif"><a href="https://code.visualstudio.com/docs/setup/linux" target="_blank">Visual
+Studio Code</a>, </font><font face="Arial, sans-serif">si c'est la
+première fois que vous utilisez cet éditeur pour l'édition de
+fichiers de code source.  Une fois dans </font><font face="Arial, sans-serif">l’éditeur</font><font face="Arial, sans-serif">,
+il vous sera possible de facilement ouvrir un fichier.  Il est à
+noter que l'utilisation du signe de pourcentage </font><font face="Arial, sans-serif">(</font><font face="Courier New, monospace">%</font><font face="Arial, sans-serif">)
+</font><font face="Arial, sans-serif">sert à indiquer l'invité
+(</font><font face="Arial, sans-serif"><i>prompt</i></font><font face="Arial, sans-serif">)
+d'un terminal sous Linux.  </font><font face="Arial, sans-serif">Il
+n’a donc pas à être retapé dans la console</font><font face="Arial, sans-serif">.
+ Vous taperez donc ce qui suit dans l'interpréteur de commandes
+(</font><font face="Arial, sans-serif"><i>shell</i></font><font face="Arial, sans-serif">
+en anglais).  Si vous ne le connaissez pas, voir </font><a href="https://doc.ubuntu-fr.org/tutoriel/console_commandes_de_base" target="_blank"><font face="Arial, sans-serif">site</font></a><font face="Arial, sans-serif">
+pour entreprendre votre étude des commandes de base en Linux. 
+Cependant, l</font><font face="Arial, sans-serif">a page sur les
+<a href="https://cours.polymtl.ca/inf1900/guides/editeurs/" target="_blank">éditeurs
+sous Linux</a> vous donne aussi quelques ressources supplémentaires</font><font face="Arial, sans-serif">.
+ </font><font face="Arial, sans-serif">Ceci démarrera donc l’éditeur
+VS-Code </font><font face="Arial, sans-serif">au bon endroit</font><font face="Arial, sans-serif">
+</font><font face="Arial, sans-serif">si vous vous trouvez dans le
+même répertoire où vous avez déposé le fichier C/C++</font><font face="Arial, sans-serif">:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm"><font face="Consolas, sans-serif">%
+code &amp;</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><u>L</u></font><font face="Arial, sans-serif"><u>e
+</u></font><font face="Arial, sans-serif"><u>M</u></font><font face="Arial, sans-serif"><u>akefile</u></font><font face="Arial, sans-serif">:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Maintenant
+que vous avez reconnu qu'il s'agissait bel et bien de code en C dans
+le fichier source, il faudra le compiler.  </font><font face="Arial, sans-serif">Prendre</font><font face="Arial, sans-serif">
+</font><font face="Arial, sans-serif">c</font><font face="Arial, sans-serif">e
+fichier <a href="https://cours.polymtl.ca/inf1900/tp/tp1/Makefile" target="_blank">Makefile</a>
+</font><font face="Arial, sans-serif">et le déposer </font><font face="Arial, sans-serif">dans
+le même répertoire.  </font><font face="Arial, sans-serif">L’ouvrir
+avec VS Code</font><font face="Arial, sans-serif">.  Ce Makefile peut
+sembler compliqué vu son caractère très général, mais nous avons
+3 lignes à adapter pour arriver à compiler à peu près n'importe
+quel fichier source simple.  Changer la fin de la ligne commençant
+par PROJECTNAME pour placer le nom du fichier exécutable que vous
+voulez obtenir une fois la compilation terminée.  Ce pourrait être,
+par exemple, </font><font face="Arial, sans-serif"><i>test32bits</i></font><font face="Arial, sans-serif">.
+ Un peu plus bas, dans le Makefile, à la ligne débutant par PRJSRC,
+placer le nom du premier fichier source de l'étape précédente au
+lieu de celui qui est inscrit.   Remonter plus haut dans le fichier
+et changer la variable MCU pour indiquer le type de microcontrôleur
+que l'on souhaite programmer soit </font><font face="Arial, sans-serif"><i>atmega324pa</i></font><font face="Arial, sans-serif">
+dans notre cas.  Il se peut qu'il n'y ait rien à changer.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><u>Compiler
+le code</u>:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Il faut
+maintenant compiler et charger le programme.  Une façon de faire
+pourrait être de taper les longues lignes des commandes pour chacun
+des programmes à appeler. Cette façon de faire est longue et
+fastidieuse en plus d'attirer facilement les erreurs.  Le Makefile
+établi précédemment nous simplifie la tâche puisqu'il fait tout
+pour nous.  On tapera donc la commande suivante et on lira les
+messages affichés à l'écran.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm"><font face="Consolas, sans-serif">%
+make</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><u>L</u></font><font face="Arial, sans-serif"><u>e
+simulateur et/ou la carte</u></font><font face="Arial, sans-serif">:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm; background: transparent; page-break-before: auto">
+<font face="Arial, sans-serif">O</font><font face="Arial, sans-serif">n
+a déjà un code compilé sans avoir eu recours ni à la carte mère
+ni au simulateur.  Les opérations se séparent à partir d’ici.</font></p>
+<p style="margin-bottom: 0cm; background: transparent"><br>
+
+</p>
+<p style="margin-bottom: 0cm; background: transparent"><font face="Arial, sans-serif">P</font><font face="Arial, sans-serif">our
+le simulateur:</font></p>
+<p style="margin-bottom: 0cm; background: transparent"><font face="Arial, sans-serif">Partir
+le simulateur SimulIDE et <a href="https://cours.polymtl.ca/inf1900/tp/tp1/cntr32bits.simu" target="_blank">charger
+le fichier de matériel .simu</a></font><font face="Arial, sans-serif">.
+ </font><font face="Arial, sans-serif">La configuration matérielle
+déjà en place permettra de faire tourner le code précédemment
+chargé</font><font face="Arial, sans-serif">. </font>
+</p>
+<p style="margin-bottom: 0cm; background: transparent"><br>
+
+</p>
+<p style="margin-bottom: 0cm; background: transparent"><font face="Arial, sans-serif">Pour
+la carte mère <b>(lorsque ce sera possible!)</b> :</font></p>
+<p style="margin-bottom: 0cm; background: transparent"><font face="Arial, sans-serif">Relier
+la carte mère au PC avec un câble USB.  Prendre un câble à deux
+positions serti.  Il doit avoir ses deux bouts femelles.  Brancher un
+bout sur le connecteur IDC de la section «Del libre» de la carte
+mère.  Brancher l'autre bout sur les broches 1 et 2 du port C.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><u>Chargement
+de l’exécutable</u>:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm; background: transparent"><font face="Arial, sans-serif">Pour
+le simulateur:</font></p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Il
+faudra par la suite charger le fichier .hex généré dans le
+processeur (clique-droit sur le processeur et «load firmware» par
+la suite).  Démarrer la simulation en cliquant sur le bouton prévu
+dans la barre du haut en rouge. </font>
+</p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Pour la
+carte mère <b>(lorsque ce sera possible!)</b>:</font></p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Le
+Makefile établi précédemment nous simplifie la tâche puisqu'il
+fait tout pour nous.  On tapera donc la commande suivante et on lira
+les messages à l'écran.  Le Makefile appellera le chargeur AVR Dude
+pour effectuer le transfert de l’exécutable vers la carte par USB:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm"><font face="Consolas, sans-serif">%
+make install</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><u>Observation
+du comportement</u>:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Normalement,
+dans le simulateur ou sur la carte mère, les DEL devraient commencer
+à scintiller directement si tout se passe bien.  Si le premier <i>make</i>
+n'a pas passé, il faut penser que la source du problème est
+probablement dans le Makefile puisque c'est le seul fichier qui a été
+édité (à moins que vous ayez introduit des caractères par
+accident en consultant le fichier source).  Une autre possibilité
+pourrait être un problème avec une mauvaise installation de AVR-GCC
+ou du programme make lui-même.  </font>
+</p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Le
+simulateur présente des DEL sur plusieurs ports alors que pour la
+carte mère, leur nombre est plus limité.  Tout de même, sur la
+carte mère, déplacer le câble à deux positions des broches 1 et 2
+du port C vers d'autres paires de broches adjacentes sur d'autres
+ports au fur et à mesure pour explorer un peu ce qui se passe. </font>
+</p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Essayer
+de comprendre ce que vous observez du comportement de la DEL et du
+code que vous avez.  Pouvez-vous y voir un lien avec votre
+additionneur binaire matériel de INF1500 réalisé avec des portes
+logiques (<a href="https://fr.wikipedia.org/wiki/Additionneur" target="_blank">demi-additionneur
+et additionneur complet</a>) avec propagation de la retenue ?</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><u>Pour
+une recompilation depuis le départ</u>:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Si vous
+voulez refaire les étapes de compilation précédentes, mais pour
+d'autres fichiers sources,  il suffit de modifier la variable PRJSRC
+dans le Makefile à chaque fois.  Lors d'un changement de fichier
+source, il est nécessaire de faire le nettoyage des fichiers
+intermédiaires produits durant le processus de compilation ce qui se
+fait avec la commande suivante:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm"><font face="Consolas, sans-serif">%
+make clean</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>Contrôle
+d'une DEL</b></font></font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Il
+faudra reproduire le circuit suivant dans SimulIDE.  Noter que les
+DEL peuvent être reliées à deux broches consécutives du port que
+vous souhaitez utiliser (n’importe quel, sauf peut-être le port D
+pour l’instant), tant que vous en tiendrez compte dans le code à
+écrire qui suivra.  L’interrupteur doit obligatoirement être
+relié au port D2 pour des raisons qui deviendront plus claires d’ici
+quelques semaines.  Il faudra sauvegarder ce circuit dans un fichier
+ayant l’extension .simu comme dans l’exemple et le placer
+préférablement dans le même répertoire que celui dans lequel vous
+placerez aussi votre code C/C++.  <u>Il est important de noter que le
+nom du fichier que vous choisirez ne doit absolument pas contenir
+d’espace, car SimulIDE aura de la difficulté à le recharger par
+la suite</u>.  De toute façon, aucun fichier ce code source que vous
+écrivez ne devrait contenir d’espaces ou de caractères avec
+accents.  C’est une mauvaise pratique. </font>
+</p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-botton: 0cm" align="center"><img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/tp1-circuit.png" name="Image3" width="831" height="597" align="middle">
+    <br clear="left">
+  
+
+<br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Si
+l’exercice est fait sur la carte mère, il est à noter que la DEL
+libre à usage général sur la carte est bicolore.  Il  est donc
+possible d'afficher une couleur différente en changeant la polarité
+de la tension appliquée à ses bornes tout comme le circuit réalisé
+dans le simulateur le permet.  Du point de vue du matériel, c’est
+le même circuit et le même code va produire le même comportement
+dans le simulateur et sur la carte mère.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Il faut
+maintenant écrire un peu de code et faire faire à une DEL ce que
+nous voulons que ce soit dans le simulateur ou sur la carte mère. Il
+est à noter que la double-DEL libre à usage général dans le
+circuit prendra une couleur ou l’autre selon le sens du courant qui
+la traverse.  Il  est donc possible d'afficher une couleur différente
+en changeant la polarité de la tension appliquée à ses bornes. 
+Prenons un exemple.  On a décidé de relier les broches A0 et A1 du
+port A du microcontrôleur aux deux broches de la double-DEL mais on
+aurait pu prendre deux autres broches.  En plaçant en sortie les
+combinaisons 01 et 10 sur A0 et A1 du port A, on obtient des couleurs
+différentes de la DEL (vert et rouge).  Toute autre combinaison
+n'entraînera pas de chute de tension dans la DEL et donc aucune
+couleur ne sera émise par cette dernière.  Sur une vraie carte mère
+physique, par contre, un changement rapide et répété de polarité
+sur A0 et A1 arrivera à confondre l'oeil et donnera l'apparence
+d'une couleur ambrée (jaune foncé) si la DEL est réellement de
+type bicolore.  Évidemment, sur la carte mère, le câble à deux
+positions doit être utilisé pour relier la DEL libre aux deux
+premières broches du port A pour avoir un circuit équivalent à
+celui du simulateur.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">L'exercice
+consiste à faire allumer la DEL de chaque couleur pour quelques
+secondes.  On affichera d'abord la couleur rouge, puis la couleur
+verte puis la couleur ambrée.  On répétera cette séquence à
+l'infini.  Pour ce faire, il faut prendre en considération les
+aspects suivants:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Il
+	faudra utiliser le fichier include arv/io.h, car il faut effectuer
+	un travail sur les entrées/sorties du microcontrôleur. Pour vous
+	aider dans votre programmation, il faudra consulter des sections de
+	la documentation sur la librairie AVR LibC, surtout les sections
+	«Special function registers» et «Standard Integer Types» dans
+	«Library Reference» de la documentation.  </font>
+	</p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">L'utilisation
+	de type <i>uint8_t</i> serait souhaitable puisqu'on travaille avec
+	un processeur de 8 bits.</font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Il
+	faudra introduire des délais importants en plusieurs endroits dans
+	le code puisque l'AVR travaille à une vitesse de 8 Mhz ce qui est
+	énorme à l'échelle humaine.  L'AVR peut faire des millions
+	d'instructions durant une seconde.  Il faut donc lui faire perdre
+	beaucoup de temps.  La section «Busy-wait delay loop» vous sera
+	très utile.</font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Bien
+	entendu, régler la vitesse du ATMega324 à 8 MHz (clique-droit sur
+	le processeur et l’option «Properties» dans le menu.  Le
+	changement peut se faire dans la colonne de gauche de l’outil par
+	la suite.</font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Il
+	faudra ajuster un port A du circuit pour qu'il soit en sortie ce qui
+	nécessite l'ajustement du registre de configuration de ce port
+	(DDRA).  Ce port doit être celui choisi pour relier les DEL dans le
+	circuit entré dans SimulIDE précédemment.</font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Il
+	faudra avoir une boucle infinie pour répéter la séquence.</font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Il
+	serait souhaitable de s'inspirer des exemples fournis à la section
+	précédente pour écrire votre propre code.</font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Si
+	les opérations sur des bits en C/C++ est un concept inconnu pour
+	vous, consulter </font><a href="https://en.wikipedia.org/wiki/Bitwise_operation" target="_blank"><font face="Arial, sans-serif">rubrique
+	Wikipédia</font></a><font face="Arial, sans-serif"> pour en savoir
+	plus sur la question.</font></p>
+</li></ul>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>Interrupteur</b></font></font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">La carte
+comporte également 2 boutons-poussoirs.  Le premier est le plus bas
+sur le bord gauche de la carte.  Son activation provoque une remise à
+zéro (<i>reset</i>) du microcontrôleur ATMega324PA.  Le second,
+situé plus haut, est pour usage général.  Il est relié à la
+sortie D2 s'il y un cavalier sur IntEN qui est juste sous
+l'interrupteur.  La sortie D2 peut également être configurée pour
+servir d'entrée à une interruption externe (au sens microprocesseur
+du terme, concept qui sera abordé dans quelques semaines).</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Reprendre
+intégralement le circuit de l’exercice précédent si vous faites
+l’exercice avec le simulateur, mais cette fois, nous utiliserons
+l'interrupteur pour servir d'entrée au programme.  Alors que
+précédemment les couleurs changeaient automatiquement après un
+certain délai, il faut maintenant attendre de recevoir une commande
+de l'interrupteur pour provoquer le changement de couleur.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Les
+interrupteurs de type bouton-poussoir tels que ceux d’une vraie
+carte mère physique ont une nature mécanique au sens où des pièces
+de métal doivent venir en contact pour provoquer la fermeture d'une
+boucle dans le circuit.  Étant donnée la nature élastique du métal
+de l'interrupteur, un tel contact ne se fait pas instantanément, tel
+qu'on serait porté à le penser.  Les morceaux de métal risquent
+fort de rebondir l'un sur l'autre durant quelques millisecondes avant
+que le contact demeure stable entre les deux.  Le moment où le
+contact s'établit est donc un concept plutôt flou.  Il est donc
+important de prévoir un mécanisme dit d'antirebond («debouncing»
+en anglais) pour établir plus clairement à partir de quel moment un
+contact a eu lieu dans le temps.  Il existe plusieurs techniques pour
+arriver à préciser le point dans le temps et éviter que le
+microcontrôleur interprète plusieurs transitions sur l'interrupteur
+comme autant de changements de signal alors que l'utilisateur n'a
+appuyé sur le bouton qu'une seule fois!</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-botton: 0cm" align="center"><img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/bouncing.png" name="Image1" width="710" height="627" align="middle">
+    <br clear="left">
+  
+
+<br>
+
+</p>
+<p style="margin-bottom: 0cm" align="center"><font face="Arial, sans-serif">Signal
+sans antirebond (haut) et son interprétation possible par le
+microcontrôleur</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Une
+façon de faire est d'utiliser une bascule («latch») qui verrouille
+sa sortie dès que le seuil en entrée a été dépassé.  Un
+condensateur peut aussi être placé pour filtrer le signal de
+l'interrupteur de façon à rendre la transition plus nette.  Ces
+solutions sont de nature matérielle.  Il existe aussi une façon
+toute simple d'arriver au même objectif en employant une méthode
+logicielle.  Il suffit d'effectuer deux lectures consécutives (ou
+plus si l'on est vraiment nerveux!) du signal, mais séparées dans
+le temps d'un intervalle jugé approprié.  Si la seconde lecture est
+à la même valeur que la première, on peut confirmer que le signal
+est stable.  Un délai de 10 millisecondes est souvent utilisé dans
+les cas les plus courants pour s'assurer d'une bonne lecture.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-botton: 0cm" align="center"><img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/bouncing2.png" name="Image2" width="710" height="265" align="middle">
+    <br clear="left">
+  
+
+<br>
+
+</p>
+<p style="margin-bottom: 0cm" align="center"><font face="Arial, sans-serif">Antirebond
+de façon logicielle</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">L'exercice
+consiste encore à allumer la DEL.  Toutefois, les changements seront
+commandés par l'utilisation du bouton-poussoir <i>Interrupt</i> du
+circuit.  Ainsi, chaque fois que l'utilisateur appuie sur le bouton
+(avec la souris...), la DEL tourne à la couleur de votre choix et
+demeure dans cette couleur tant que le bouton n'est pas relâché. 
+Lorsque le bouton est finalement relâché, la DEL s'éteint. 
+Quelques consignes avant de programmer:</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">S'assurer
+	de la présence d'un <a href="https://fr.wikipedia.org/wiki/Cavalier_(%C3%A9lectronique)" target="_blank">cavalier</a>
+	(<a href="https://en.wikipedia.org/wiki/Jumper_(computing)" target="_blank"><i>jumper</i></a>)
+	sur IntEN sur la carte mère.  Cette opération n’est pas
+	nécessaire avec le simulateur.</font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Avoir
+	une fonction qui effectue une lecture du bouton-poussoir avec
+	l'antirebond effectué de façon logicielle</font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">S'assurer
+	que le port D2 est configuré en entrée.  Normalement, par défaut,
+	l'AVR considère chaque bit de chaque port comme étant en entrée,
+	mais il est toujours utile de s'assurer que c'est bien le cas (être
+	bien certain que DDRD est à la bonne valeur).</font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">En
+	plus, pour lire d'un port configuré en entrée, il faut utiliser la
+	valeur prédéfinie PINx.  Donc, pour savoir si le signal 2 du port
+	D est à 1, il faudra utiliser le masque 0x04 dans l’expression
+	qui suit.  En se faisant, on pourra «isoler» (ou ne prendre en
+	compte si l’on préfère) que le signal 2 du port.  Autrement, une
+	transition sur une autre broche du même port pourrait être
+	considérée valide ce qui n’est pas souhaitable ici:</font></p>
+</li></ul>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm"><font face="Courier New, monospace">if
+( PIND &amp; 0x04 )</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>Évaluation</b></font></font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Vous
+pourrez montrer votre code au chargé de laboratoire si vous désirez
+vous assurer de votre bonne compréhension de l'exercice.  Il pourra
+vous demander d'expliquer certaines parties de vos programmes et vous
+aider au besoin.  Aucun point n'est accordé pour ce travail, mais il
+est nécessaire pour la suite du cours.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>Remarque
+importante</b></font></font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Sur la
+carte mère, les bits [4:7] du port B (broches 5, 6, 7 et 8) du
+ATmega324PA sont utilisés par le ATmega8 lorsque ce dernier
+programme le ATmega324PA lorsque la commande <i>make install</i> est
+lancée pour que l'exécutable sur le PC se retrouve en mémoire
+<i>flash</i>.  Donc, si des périphériques branchés sur la carte
+mère utilisent ces 4 bits les plus significatifs du port B, ils
+peuvent nuire à la programmation de la carte mère (messages
+d'erreur sur PC).  Il n'y a pas de solution simple à ce problème. 
+Il est fort possible qu'on doive utiliser cette partie du port B. 
+Dans ce cas, il faudra peut-être débrancher ces périphériques à
+chaque reprogrammation de la carte mère, ce qui est pénible... 
+Dans la mesure du possible, pour éviter cet inconvénient,
+n'utiliser ces entrées/sorties que si la situation le nécessite
+(parce que les autres ports sont déjà occupés par d'autres
+périphériques).  Le simulateur n’est pas affecté par cette
+contrainte.</font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif"><font style="font-size: 14pt" size="4"><b>Le
+saviez-vous ?…</b></font></font></p>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Dans
+VS-Code:</font></p>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Ctrl
+	+ Shift + I : pour formater automatiquement le code</font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Ctrl
+	+ Shift + ` (apostrophe autrement dit) : pour ouvrir la console  </font>
+	</p>
+</li></ul>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+<p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Dans un
+terminal Linux:</font></p>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">On
+	peut toujours faire la commande «man» (pour <b>man</b>uel) suivie
+	du nom d’une  commande pour avoir accès à une description de la
+	commande voulue et en apprendre plus sur les options possibles avec
+	celle-ci.  Exemple : <font face="Courier New, monospace">% </font><font face="Courier New, monospace">man
+	ls</font></font></p>
+	</li><li><p style="margin-bottom: 0cm"><font face="Arial, sans-serif">Assez
+	souvent aussi, on peut évoquer une commande avec soit l’option -h
+	ou l’option --help pour en apprendre plus également.  Exemple: <font face="Courier New, monospace">%
+	</font><font face="Courier New, monospace">ls --help</font></font></p>
+</li></ul>
+<p style="margin-bottom: 0cm"><br>
+
+</p>
+
+
+
+
+</div>
+</div>
+
+
+<style type="text/css">
+
+
+</style>
+
+<div id="popupPhotos" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <div id="myCarousel" class="carousel slide">
+
+        <div class="carousel-inner">
+                                    <div class="item active ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/optimus_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/optimus.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/ligne+3robots_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/ligne+3robots.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/escalier+3robots_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/escalier+3robots.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/5robots_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/5robots.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/ps2+bleu_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/ps2+bleu.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/jaune+ligne_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/jaune+ligne.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/eviterPoteaux_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/eviterPoteaux.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/oscillo+blanc_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/oscillo+blanc.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/carteMere_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/carteMere.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/arriere_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/arriere.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/lt+usb_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/lt+usb.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/oscillo+noir_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/oscillo+noir.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/combatants_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/combatants.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                                                <div class="item  ">
+                            <img src="inf1900%20g%C3%A9nie%20informatique%20et%20g%C3%A9nie%20logiciel%20-%20Polytechnique%20Montr%C3%A9al_fichiers/3robots_.jpg" alt="">
+                            <div class="carousel-caption text-right">
+                                                                <a class="btn btn-danger close" data-dismiss="modal" href="#" style="opacity:1; float:none">Fermer</a>
+                                <a class="btn btn-success download-image" href="https://cours.polymtl.ca/inf1900/preambule/imagesRobot/images/3robots.jpg">Télécharger l'image</a>
+                            </div>
+                        </div>
+                        
+        </div>
+
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+    </div>
+</div>
+
+
+
+<footer>
+
+    <div class="container skinfooter">
+        <div class="row" <div="">
+            <a class="skinfooteritem" href="https://cours.polymtl.ca/inf1900/creativecommons"> licence CC </a>
+            <a class="skinfooteritem" href="https://cours.polymtl.ca/inf1900/intro/"> Description générale du robot</a>
+            <a class="skinfooteritem" href="https://cours.polymtl.ca/inf1900/prixMalouf/"> Prix Philip et Lily Malouf</a>
+            <a class="skinfooteritem" href="https://cours.polymtl.ca/inf1900/preambule/remerciements/"> Remerciements</a>
+            <a class="skinfooteritem" href="#popupPhotos" data-toggle="modal"> Photographies</a>
+            <a class="skinfooteritem" href="https://cours.polymtl.ca/inf1900/liensDivers/"> Liens  </a>
+
+
+            <div style="margin-top:15px; margin-bottom:15px; color:#E7E6E6">
+                Licence Creative Commons Attribution (CC BY) par Jérôme Collin - INF1900 : Projet initial de système embarqué <br>
+                Département de génie informatique et génie logiciel - Polytechnique Montréal
+            </div>
+        </div>
+
+    </div>
+    
+
+</footer>
+
+
+
+
+
+</body></html>
+<!--
+   footer.php - phe 5 décembre 2005
+   
+-->
+<!--
+     Finir le chargement de la page principale avant...
+-->
+<!-- ******************** F O O T E R  ( F I N ) ******************** !-->

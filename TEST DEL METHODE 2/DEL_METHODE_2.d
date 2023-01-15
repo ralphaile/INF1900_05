@@ -1,0 +1,1 @@
+DEL_METHODE_2.o: DEL_METHODE_2.cpp

@@ -16,7 +16,7 @@ int main()
   
   DDRA |= (1 << DDA0) | (1 << DDA1); // PORT A est en mode sortie
   DDRD &= ~(1 << DDD2);              // PORT D est en mode entree
-etat state =etat::COULEUR_ROUGE;                          // le compteur est initialise a 0.
+q etat state =etat::COULEUR_ROUGE;                          // le compteur est initialise a 0.
   PORTA |=(1<<PA1)        ;                          // c'est un compteur de 32 bits
 
   for (;;) // boucle sans fin

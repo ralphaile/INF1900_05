@@ -38,9 +38,8 @@ int main()
                                 state=etat::THIRD_CLICK;
                                 }
                             break;
-    case etat::THIRD_CLICK: while(PIND & 0x04)
+    case etat::THIRD_CLICK: if(PIND & 0x04)
                                {
-                                     _delay_ms(50);  
                                     PORTA |= (1<< PORTA0);
                                     _delay_ms(2000);
                                     state=etat::INIT;                                  

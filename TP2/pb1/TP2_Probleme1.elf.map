@@ -125,7 +125,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x124
+.text           0x0000000000000000      0x112
  *(.vectors)
  .vectors       0x0000000000000000       0x7c /usr/lib/gcc/avr/11.2.0/../../../../avr/lib/avr5/crtatmega324pa.o
                 0x0000000000000000                __vectors
@@ -213,26 +213,26 @@ END GROUP
  .text          0x0000000000000094        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
                 0x0000000000000094                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x0000000000000094       0x8c TP2_Probleme1.o
+ .text.startup  0x0000000000000094       0x7a TP2_Probleme1.o
                 0x0000000000000094                main
  .text.libgcc.mul
-                0x0000000000000120        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x000000000000010e        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x0000000000000120        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
- .text.libgcc   0x0000000000000120        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x000000000000010e        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x000000000000010e        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x0000000000000120        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x000000000000010e        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x0000000000000120        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x000000000000010e        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x0000000000000120        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x000000000000010e        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x0000000000000120        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
-                0x0000000000000120                . = ALIGN (0x2)
+                0x000000000000010e        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x000000000000010e                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000000000000120        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
-                0x0000000000000120                exit
-                0x0000000000000120                _exit
+ .fini9         0x000000000000010e        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x000000000000010e                exit
+                0x000000000000010e                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -251,17 +251,17 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000000000000120        0x4 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+ .fini0         0x000000000000010e        0x4 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  *(.fini0)
  *(.hightext)
  *(.hightext*)
  *(.progmemx.*)
-                0x0000000000000124                . = ALIGN (0x2)
+                0x0000000000000112                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
-                0x0000000000000124                _etext = .
+                0x0000000000000112                _etext = .
 
-.data           0x0000000000800100        0x0 load address 0x0000000000000124
+.data           0x0000000000800100        0x0 load address 0x0000000000000112
                 [!provide]                        PROVIDE (__data_start = .)
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/11.2.0/../../../../avr/lib/avr5/crtatmega324pa.o
@@ -285,8 +285,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 [!provide]                        PROVIDE (__bss_end = .)
-                0x0000000000000124                __data_load_start = LOADADDR (.data)
-                0x0000000000000124                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000000000000112                __data_load_start = LOADADDR (.data)
+                0x0000000000000112                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800100        0x0
                 [!provide]                        PROVIDE (__noinit_start = .)
@@ -311,9 +311,9 @@ END GROUP
 .signature
  *(.signature*)
 
-.stab           0x0000000000000000      0x228
+.stab           0x0000000000000000      0x1f8
  *(.stab)
- .stab          0x0000000000000000      0x228 TP2_Probleme1.o
+ .stab          0x0000000000000000      0x1f8 TP2_Probleme1.o
 
 .stabstr        0x0000000000000000      0x11b
  *(.stabstr)

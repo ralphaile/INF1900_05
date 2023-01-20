@@ -10,45 +10,46 @@
 #include <util/delay.h>
 
 #include <avr/io.h>
-enum etat{INIT, SECOND_CLICK, THIRD_CLICK};
+enum etat { INIT, SECOND_CLICK, THIRD_CLICK };
 int main()
 {
-  DDRA |= (1 << DDA0) | (1 << DDA1); // PORT A est en mode sortie
-  DDRD &= ~(1 << DDD2);              // PORT D est en mode entree
-  etat state = etat::INIT;                                   // le compteur est initialise a 0.
+    DDRA |= (1 << DDA0) | (1 << DDA1); 
+    DDRD &= ~(1 << DDD2)
+    etat state = etat::INIT;
+    PORTA &= ~(PORTA);                    
 
-    PORTA &= ~(PORTA);                       // c'est un compteur de 32 bits
-
-  for (;;) // boucle sans fin
-  {
-
-    switch (state)
+    for (;;) // boucle sans fin
     {
-    case etat::INIT: 
-                        PORTA &= ~(PORTA);
-                        while(PIND & 0x04)
-                        {
-                            _delay_ms(50);                            
-                            state= etat::SECOND_CLICK;
-                        }
-                    break;
-    case etat::SECOND_CLICK: while(PIND & 0x04)
-                                {
-                                _delay_ms(50);  
-                                state=etat::THIRD_CLICK;
-                                }
-                            break;
-    case etat::THIRD_CLICK: if(PIND & 0x04)
-                               {
-                                    PORTA |= (1<< PORTA0);
-                                    _delay_ms(2000);
-                                    state=etat::INIT;                                  
-                                    }
-                            break;
+
+        switch (state)
+        {
+            case etat::INIT:
+                PORTA &= ~(PORTA);
+                while (PIND & 0x04)
+                {
+                    _delay_ms(50);
+                    state = etat::SECOND_CLICK;
+                }
+                break;
+            case etat::SECOND_CLICK:
+                while (PIND & 0x04)
+                {
+                    _delay_ms(50);
+                    state = etat::THIRD_CLICK;
+                }
+                break;
+            case etat::THIRD_CLICK: 
+                if (PIND & 0x04)
+                {
+                    PORTA |= (1 << PORTA0);
+                    _delay_ms(2000);
+                    state = etat::INIT;
+                 }
+                 break;
+        }
     }
- } 
 
-  return 0;
+    return 0;
 
-  }
+}
 

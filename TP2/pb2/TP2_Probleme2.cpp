@@ -8,60 +8,64 @@
  */
 #define F_CPU 8000000
 #include <util/delay.h>
-
 #include <avr/io.h>
-enum etat{COULEUR_ETEINT,COULEUR_ROUGE,COULEUR_VERT};
+
+void allumerRouge(){
+    PORTA &= ~(PORTA); //Eteindre la DEL
+    PORTA |= (1 << PORTA1);//Allumer en couleur Rouge
+}
+
+void allumerVert() {
+    PORTA &= ~(PORTA);//Eteindre la DEL
+    PORTA |= (1 << PORTA0);//Allumer en couleur Vert
+}
+enum etat { COULEUR_ETEINT, COULEUR_ROUGE, COULEUR_VERT };//Les differents etats de notre systeme
 int main()
 {
-  
-  DDRA |= (1 << DDA0) | (1 << DDA1); // PORT A est en mode sortie
-  DDRD &= ~(1 << DDD2);              // PORT D est en mode entree
-q etat state =etat::COULEUR_ROUGE;                          // le compteur est initialise a 0.
-  PORTA |=(1<<PA1)        ;                          // c'est un compteur de 32 bits
 
-  for (;;) // boucle sans fin
-  {
+    DDRA |= (1 << DDA0) | (1 << DDA1); //Les PORT A0 et A1 sont en sorties
+    DDRD &= ~(1 << DDD2);//Le PORT D2 est en entree
+    etat state = etat::COULEUR_ROUGE; 
+    allumer_Rouge();
 
-  switch(state){
-    case etat::COULEUR_ROUGE:
-                    PORTA &= ~(PORTA);  
-                    PORTA |=(1<<PA1);
-                    while(PIND & 0x04)
-                       {
-                        _delay_ms(10); 
-                         PORTA &= ~(PORTA);  
-                         PORTA |= (1<<PORTA0);
-                         _delay_ms(20); 
-                         PORTA &= ~(PORTA);  
-                         PORTA |= (1<<PORTA1);
-                         if(!(PIND & 0x04))
-                            state=etat::COULEUR_VERT;
-                       }
-                       break;
-    case etat::COULEUR_VERT:
-                    PORTA &= ~(PORTA);  
-                    PORTA |= (1<<PORTA0);
-                    while(PIND & 0x04)
-                       {
-                        _delay_ms(20); 
-                        PORTA &= ~(PORTA); 
-                         PORTA |= (1<<PORTA1);
-                         if(!(PIND & 0x04))
-                            state=etat::COULEUR_ETEINT;
-                       }
-                        break;
-    case etat::COULEUR_ETEINT:
-                    PORTA &= ~(PORTA);
-                     while(PIND & 0x04)
-                       {
-                        _delay_ms(20); 
-                        PORTA &= ~(PORTA); 
-                        PORTA |= (1<<PORTA0);
-                         if(!(PIND & 0x04))
-                            state=etat::COULEUR_ROUGE;
-                       }
-  }  
-  }
-  return 0;
+    for (;;)
+    {
 
-  }
+        switch (state) {
+            case etat::COULEUR_ROUGE:
+                allumer_Rouge();
+                while (PIND & 0x04)
+                {
+                    _delay_ms(10);//On fait un delai pour ignorer les rebonds
+                    allumerVert();//On allumer le vert puis le rouge pour avoir la couleur ambre
+                    _delay_ms(20);
+                    allumerRouge();
+                    if (!(PIND & 0x04))
+                        state = etat::COULEUR_VERT;
+                }
+                break;
+            case etat::COULEUR_VERT:
+                allumerVert();
+                while (PIND & 0x04)
+                {
+                    _delay_ms(20);
+                    allumerRouge();
+                    if (!(PIND & 0x04))
+                        state = etat::COULEUR_ETEINT;
+                }
+                break;
+            case etat::COULEUR_ETEINT:
+                PORTA &= ~(PORTA);
+                while (PIND & 0x04)
+                {
+                    _delay_ms(20);
+                    allumerVert();
+                    if (!(PIND & 0x04))
+                        state = etat::COULEUR_ROUGE;
+                }
+                break;
+        }
+    }
+    return 0;
+
+}

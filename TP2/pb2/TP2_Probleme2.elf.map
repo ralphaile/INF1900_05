@@ -125,7 +125,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x156
+.text           0x0000000000000000      0x144
  *(.vectors)
  .vectors       0x0000000000000000       0x7c /usr/lib/gcc/avr/11.2.0/../../../../avr/lib/avr5/crtatmega324pa.o
                 0x0000000000000000                __vectors
@@ -209,30 +209,32 @@ END GROUP
                 0x0000000000000090                __vector_16
                 0x0000000000000090                __vector_18
                 0x0000000000000090                __vector_20
- .text          0x0000000000000094        0x0 TP2_Probleme2.o
- .text          0x0000000000000094        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
-                0x0000000000000094                . = ALIGN (0x2)
+ .text          0x0000000000000094       0x1c TP2_Probleme2.o
+                0x0000000000000094                _Z12allumerRougev
+                0x00000000000000a2                _Z11allumerVertv
+ .text          0x00000000000000b0        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x00000000000000b0                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x0000000000000094       0xbe TP2_Probleme2.o
-                0x0000000000000094                main
+ .text.startup  0x00000000000000b0       0x90 TP2_Probleme2.o
+                0x00000000000000b0                main
  .text.libgcc.mul
-                0x0000000000000152        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x0000000000000140        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x0000000000000152        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
- .text.libgcc   0x0000000000000152        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x0000000000000140        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x0000000000000140        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x0000000000000152        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x0000000000000140        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x0000000000000152        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x0000000000000140        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x0000000000000152        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x0000000000000140        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x0000000000000152        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
-                0x0000000000000152                . = ALIGN (0x2)
+                0x0000000000000140        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x0000000000000140                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000000000000152        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
-                0x0000000000000152                exit
-                0x0000000000000152                _exit
+ .fini9         0x0000000000000140        0x0 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+                0x0000000000000140                exit
+                0x0000000000000140                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -251,17 +253,17 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000000000000152        0x4 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
+ .fini0         0x0000000000000140        0x4 /usr/lib/gcc/avr/11.2.0/avr5/libgcc.a(_exit.o)
  *(.fini0)
  *(.hightext)
  *(.hightext*)
  *(.progmemx.*)
-                0x0000000000000156                . = ALIGN (0x2)
+                0x0000000000000144                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
-                0x0000000000000156                _etext = .
+                0x0000000000000144                _etext = .
 
-.data           0x0000000000800100        0x0 load address 0x0000000000000156
+.data           0x0000000000800100        0x0 load address 0x0000000000000144
                 [!provide]                        PROVIDE (__data_start = .)
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/11.2.0/../../../../avr/lib/avr5/crtatmega324pa.o
@@ -285,8 +287,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 [!provide]                        PROVIDE (__bss_end = .)
-                0x0000000000000156                __data_load_start = LOADADDR (.data)
-                0x0000000000000156                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000000000000144                __data_load_start = LOADADDR (.data)
+                0x0000000000000144                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800100        0x0
                 [!provide]                        PROVIDE (__noinit_start = .)
@@ -311,13 +313,13 @@ END GROUP
 .signature
  *(.signature*)
 
-.stab           0x0000000000000000      0x384
+.stab           0x0000000000000000      0x348
  *(.stab)
- .stab          0x0000000000000000      0x384 TP2_Probleme2.o
+ .stab          0x0000000000000000      0x348 TP2_Probleme2.o
 
-.stabstr        0x0000000000000000      0x127
+.stabstr        0x0000000000000000      0x16b
  *(.stabstr)
- .stabstr       0x0000000000000000      0x127 TP2_Probleme2.o
+ .stabstr       0x0000000000000000      0x16b TP2_Probleme2.o
 
 .stab.excl
  *(.stab.excl)

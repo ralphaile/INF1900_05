@@ -10,42 +10,50 @@
 #include <util/delay.h>
 
 #include <avr/io.h>
-enum etat { INIT, SECOND_CLICK, THIRD_CLICK };
+enum State { INIT, SECOND_CLICK, THIRD_CLICK };
 int main()
 {
-    DDRA |= (1 << DDA0) | (1 << DDA1); 
-    DDRD &= ~(1 << DDD2)
-    etat state = etat::INIT;
-    PORTA &= ~(PORTA);                    
+    DDRA |= (1 << DDA0);
+    DDRD &= ~(1 << DDD2);
+    State state = State::INIT;
+    PORTA &= ~(PORTA);
+    int compteur;
 
     for (;;) // boucle sans fin
     {
 
         switch (state)
         {
-            case etat::INIT:
-                PORTA &= ~(PORTA);
-                while (PIND & 0x04)
-                {
-                    _delay_ms(50);
-                    state = etat::SECOND_CLICK;
-                }
-                break;
-            case etat::SECOND_CLICK:
-                while (PIND & 0x04)
-                {
-                    _delay_ms(50);
-                    state = etat::THIRD_CLICK;
-                }
-                break;
-            case etat::THIRD_CLICK: 
-                if (PIND & 0x04)
+        case State::INIT:
+            PORTA &= ~(PORTA);
+            while (PIND & 0x04)
+            {
+                _delay_ms(50);
+                state = State::SECOND_CLICK;
+            }
+            break;
+        case State::SECOND_CLICK:
+            while (PIND & 0x04)
+            {
+                _delay_ms(50);
+                state = State::THIRD_CLICK;
+            }
+            compteur=2;
+            break;
+        case State::THIRD_CLICK:
+            while (PIND & 0x04)
+            {
+                _delay_ms(50);
+                compteur++;
+                if (compteur == 3) 
                 {
                     PORTA |= (1 << PORTA0);
                     _delay_ms(2000);
-                    state = etat::INIT;
-                 }
-                 break;
+                    PORTA &= ~(PORTA);
+                    state = State::INIT;
+                }
+            }
+            break;
         }
     }
 

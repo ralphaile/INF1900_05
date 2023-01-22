@@ -19,21 +19,21 @@ void allumerVert() {
     PORTA &= ~(PORTA);//Eteindre la DEL
     PORTA |= (1 << PORTA0);//Allumer en couleur Vert
 }
-enum etat { COULEUR_ETEINT, COULEUR_ROUGE, COULEUR_VERT };//Les differents etats de notre systeme
+enum State { COULEUR_ETEINT, COULEUR_ROUGE, COULEUR_VERT };//Les differents etats de notre systeme
 int main()
 {
 
     DDRA |= (1 << DDA0) | (1 << DDA1); //Les PORT A0 et A1 sont en sorties
     DDRD &= ~(1 << DDD2);//Le PORT D2 est en entree
-    etat state = etat::COULEUR_ROUGE; 
-    allumer_Rouge();
+    State state = State::COULEUR_ROUGE; 
+    allumerRouge();
 
     for (;;)
     {
 
         switch (state) {
-            case etat::COULEUR_ROUGE:
-                allumer_Rouge();
+            case State::COULEUR_ROUGE:
+                allumerRouge();
                 while (PIND & 0x04)
                 {
                     _delay_ms(10);//On fait un delai pour ignorer les rebonds
@@ -41,27 +41,27 @@ int main()
                     _delay_ms(20);
                     allumerRouge();
                     if (!(PIND & 0x04))
-                        state = etat::COULEUR_VERT;
+                        state = State::COULEUR_VERT;
                 }
                 break;
-            case etat::COULEUR_VERT:
+            case State::COULEUR_VERT:
                 allumerVert();
                 while (PIND & 0x04)
                 {
                     _delay_ms(20);
                     allumerRouge();
                     if (!(PIND & 0x04))
-                        state = etat::COULEUR_ETEINT;
+                        state = State::COULEUR_ETEINT;
                 }
                 break;
-            case etat::COULEUR_ETEINT:
+            case State::COULEUR_ETEINT:
                 PORTA &= ~(PORTA);
                 while (PIND & 0x04)
                 {
                     _delay_ms(20);
                     allumerVert();
                     if (!(PIND & 0x04))
-                        state = etat::COULEUR_ROUGE;
+                        state = State::COULEUR_ROUGE;
                 }
                 break;
         }

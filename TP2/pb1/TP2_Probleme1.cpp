@@ -1,4 +1,25 @@
 #define F_CPU 8000000UL
+/*
+ *   +--------------+---+--------------+--------+
+ *   | init         | 0 | init         | eteint |
+ *   +--------------+---+--------------+--------+
+ *   |              | 1 | SECOND_CLICK | eteint |
+ *   +--------------+---+--------------+--------+
+ *   | SECOND_CLICK | 0 | SECOND_CLICK | eteint |
+ *   +--------------+---+--------------+--------+
+ *   |              | 1 | THIRD_CLICK  | eteint |
+ *   +--------------+---+--------------+--------+
+ *   | THIRD_CLICK  | 0 | THIRD_CLICK  | eteint |
+ *   +--------------+---+--------------+--------+
+ *   |              | 1 | init         | init   |
+ *   +--------------+---+--------------+--------+
+ * Nom: compteur 32 bits
+ * Copyright (C) 2005 Matthew Khouzam
+ * License http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * Description: Ceci est un exemple simple de programme
+ * Version: 1.1
+ */
+
 #include <util/delay.h>
 #include <avr/io.h>
 

@@ -1,5 +1,20 @@
 
 /*
+ *   +--------+---+--------+--------+
+ *   |   COULEUR_ROUGE     | 0 |   COULEUR_ROUGE | rouge |
+ *   +--------+---+--------+--------+
+ *   |                     | 1 |   COULEUR_VERT  | ambre |
+ *   +--------+---+--------+--------+
+ *   |    COULEUR_VERT     | 0 |   COULEUR_VERT  | vert  |
+ *   +--------+---+--------+--------+
+ *   |                     | 1 | COULEUR_ ETEINT | rouge |
+ *   +--------+---+--------+--------+
+ *   |   COULEUR_ ETEINT   | 0 | COULEUR_ ETEINT | éteint|
+ *   +--------+---+--------+--------+
+ *   |                     | 1 |   COULEUR_ROUGE | vert  |
+ *
+ *
+ *
  * Nom: compteur 32 bits
  * Copyright (C) 2005 Matthew Khouzam
  * License http://www.gnu.org/copyleft/gpl.html GNU/GPL

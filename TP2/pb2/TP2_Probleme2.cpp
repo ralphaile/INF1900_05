@@ -6,62 +6,67 @@
  * Description: Ceci est un exemple simple de programme
  * Version: 1.1
  */
-#define F_CPU 8000000
+#define F_CPU 8000000UL
 #include <util/delay.h>
 #include <avr/io.h>
 
+
+void eteindre() {
+    PORTA &= ~(PORTA);
+}
 void allumerRouge(){
-    PORTA &= ~(PORTA); //Eteindre la DEL
-    PORTA |= (1 << PORTA1);//Allumer en couleur Rouge
+    eteindre();
+    PORTA |= (1 << PORTA1);
 }
 
 void allumerVert() {
-    PORTA &= ~(PORTA);//Eteindre la DEL
-    PORTA |= (1 << PORTA0);//Allumer en couleur Vert
+    eteindre();
+    PORTA |= (1 << PORTA0);
 }
-enum State { COULEUR_ETEINT, COULEUR_ROUGE, COULEUR_VERT };//Les differents etats de notre systeme
+const int DELAI=10;
+enum class Etat { COULEUR_ETEINT, COULEUR_ROUGE, COULEUR_VERT };
 int main()
 {
 
-    DDRA |= (1 << DDA0) | (1 << DDA1); //Les PORT A0 et A1 sont en sorties
-    DDRD &= ~(1 << DDD2);//Le PORT D2 est en entree
-    State state = State::COULEUR_ROUGE; 
+    DDRA |= (1 << DDA0) | (1 << DDA1); 
+    DDRD &= ~(1 << DDD2);
+    Etat etat = Etat::COULEUR_ROUGE; 
     allumerRouge();
 
     for (;;)
     {
 
-        switch (state) {
-            case State::COULEUR_ROUGE:
+        switch (etat) {
+            case Etat::COULEUR_ROUGE:
                 allumerRouge();
                 while (PIND & 0x04)
                 {
-                    _delay_ms(10);//On fait un delai pour ignorer les rebonds
-                    allumerVert();//On allumer le vert puis le rouge pour avoir la couleur ambre
-                    _delay_ms(20);
+                    _delay_ms(DELAI);
+                    allumerVert();
+                    _delay_ms(DELAI);
                     allumerRouge();
                     if (!(PIND & 0x04))
-                        state = State::COULEUR_VERT;
+                        etat = Etat::COULEUR_VERT;
                 }
                 break;
-            case State::COULEUR_VERT:
+            case Etat::COULEUR_VERT:
                 allumerVert();
                 while (PIND & 0x04)
                 {
-                    _delay_ms(20);
+                    _delay_ms(DELAI);
                     allumerRouge();
                     if (!(PIND & 0x04))
-                        state = State::COULEUR_ETEINT;
+                        etat = Etat::COULEUR_ETEINT;
                 }
                 break;
-            case State::COULEUR_ETEINT:
-                PORTA &= ~(PORTA);
+            case Etat::COULEUR_ETEINT:
+                eteindre();
                 while (PIND & 0x04)
                 {
-                    _delay_ms(20);
+                    _delay_ms(DELAI);
                     allumerVert();
                     if (!(PIND & 0x04))
-                        state = State::COULEUR_ROUGE;
+                        etat = Etat::COULEUR_ROUGE;
                 }
                 break;
         }
@@ -69,3 +74,4 @@ int main()
     return 0;
 
 }
+

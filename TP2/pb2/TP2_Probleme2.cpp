@@ -1,5 +1,14 @@
 
 /*
+ *   Ireina Hedad
+ *   Ralph Aile
+ *   
+ *   Ce programme permet de faire varier la LED du robot entre le rouge, le vert, l'ambre
+ *   et la "couleur" éteint selon un certain ordre. Nous avons utiliser un switchcase pour 
+ *   pouvoir decrire les états un par un et avons également ajouté des délais à certains 
+ *   endroits pour s'assurer de voir à l'oeil les changements de couleurs.
+ *
+ *   Table des état:
  *   +--------+---+--------+--------+
  *   |   COULEUR_ROUGE     | 0 |   COULEUR_ROUGE | rouge |
  *   +--------+---+--------+--------+

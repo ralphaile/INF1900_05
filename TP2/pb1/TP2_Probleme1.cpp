@@ -1,5 +1,16 @@
 #define F_CPU 8000000UL
 /*
+ *   Ireina Hedad
+ *   Ralph Aile
+ *   
+ *   Ce programme permet d'allumer la LED pendant 2 secondes après avoir cliquer sur le 
+ *   bouton poussoir trois fois, puis pour la revoir s'allumer, il faudrait cliquer trois
+ *   autre fois pour revoir la LED s'allumer. Nous avons utilisé un switchcase pour 
+ *   pouvoir décrire les états un par un. Nos trois états sont nos 3 clicks avant que la
+ *   LED s'allume. Évidemment, nous avons ajouté un délai au première état pour que la LED
+ *   soit allumée le 2 secondes.
+ *
+ *   Table des états:
  *   +--------------+---+--------------+--------+
  *   | init         | 0 | init         | eteint |
  *   +--------------+---+--------------+--------+

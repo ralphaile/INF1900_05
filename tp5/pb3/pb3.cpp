@@ -1,13 +1,28 @@
 #define F_CPU 8000000UL
 #include <util/delay.h>
 #include <avr/io.h>
+#include <memoire_24.h>
 
 void initialisation()
 {
-    DDRD |= (1<<DDD0) | (1<<DDD1);
+    DDRA |= (1<<DDA0) | (1<<DDA1);
 }
 
+void eteindre() 
+{
+    PORTA &= ~(PORTA);
+}
+void allumerRouge()
+{
+    eteindre();
+    PORTA |= (1 << PORTA1);
+}
 
+void allumerVert() 
+{
+    eteindre();
+    PORTA |= (1 << PORTA0);
+}
 void initialisationUART ( void ) {
 // 2400 bauds. Nous vous donnons la valeur des deux
 // premiers registres pour vous éviter des complications.
@@ -35,15 +50,18 @@ UDR0 = donnee;
 
 int main()
 {
+    
+    initialisation();
     initialisationUART();
-    //initialisation();
-    char mots[21] = "Le robot en INF1900\n";
-    uint8_t i, j;
-    for ( i = 0; i < 100; i++ ) {
-        for ( j=0; j < 20; j++ ) 
-        {
-            transmissionUART ( mots[j] );
-        }
-    }
+    uint8_t mot []= "happyBirthday to me\n";
+    Memoire24CXXX memoir;
+    memoir.ecriture(0x0000,mot,sizeof(mot)-1);
+    _delay_ms(10);
+    uint8_t tmp [sizeof(mot)];
+    memoir.lecture(0x0000, tmp, sizeof(mot)-1);
+    for(int j=0;j<100;j++){
+    for(int i=0;i<sizeof(mot)-1;i++){
+        transmissionUART ( tmp[i] );
+    }}
     return 0;
 }

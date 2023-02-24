@@ -88,8 +88,8 @@ int main() {
             attendreMinuterie();
             eteindre();
             partirMinuterie(MINUTERIE_1S / 25);
-           attendreMinuterie();
-        }
+            attendreMinuterie();
+        }  
 
         // Attente de 2 secondes
         partirMinuterie(7813 * 2);

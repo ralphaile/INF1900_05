@@ -57,8 +57,6 @@ void initialisation()
     cli();
     DDRA |= (1 << DDA0) | (1 << DDA1); 
     DDRD &= ~(1 << DDD2);
-    DDRA |= (1 << DDA0) | (1 << DDA1); 
-    DDRD &= ~(1 << DDD2);
     EIMSK |= (1 << INT0) ;
     EICRA |= (1<<ISC00) | (1<<ISC01);
     sei();

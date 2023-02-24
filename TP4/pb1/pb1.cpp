@@ -35,21 +35,6 @@ ISR(INT0_vect)
     _delay_ms(DELAI);
     compteur++;
 
-    switch(compteur){
-        case 1: allumerambre();
-                break;
-        case 2: allumerVert();
-                break;
-        case 3: allumerRouge();
-                break;
-        case 4: eteindre();
-                break;
-        case 5: allumerVert();
-                break;
-        case 6: allumerRouge();
-                compteur=0;
-                break;
-        }
     EIFR |= (1<<INTF0);
 }
 
@@ -69,6 +54,21 @@ int main()
     allumerRouge();
     for (;;)
     {
+ switch(compteur){
+        case 1: allumerambre();
+                break;
+        case 2: allumerVert();
+                break;
+        case 3: allumerRouge();
+                break;
+        case 4: eteindre();
+                break;
+        case 5: allumerVert();
+                break;
+        case 6: allumerRouge();
+                compteur=0;
+                break;
+        }
     }
     return 0;
 

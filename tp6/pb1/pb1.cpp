@@ -2,10 +2,9 @@
 #include <util/delay.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#define MINUTERIE_1S 7813
 const int DELAI=30;
 volatile uint8_t gBoutonPoussoir=0;
-volatile uint8_t counter = 0;
-volatile uint8_t compteurEtat = 0;
 volatile uint8_t gMinuterieExpiree = 0;
 
 void eteindre() 
@@ -25,16 +24,13 @@ void allumerVert()
 }
 
 bool isButtonPressed(){
-    if (PIND & (1 << PIND2)){
-        _delay_ms(DELAI);
-        return (PIND & (1 << PIND2)); 
-    }
-    return false;
+    return (PIND & (1 << PIND2)); 
 }
 void partirMinuterie ( uint16_t  duree ) {
 
 // mode CTC du timer 1 avec horloge divisée par 1024
 // interruption après la durée spécifiée
+gMinuterieExpiree=0;
 TCNT1 = 0 ;
 OCR1A = duree;
 TCCR1A = 0 ;
@@ -46,15 +42,16 @@ TIMSK1 = (1<<OCIE1A) ;
 
 ISR(TIMER1_COMPA_vect) {
     gMinuterieExpiree = 1;
-    counter+=10;
+    _delay_ms(DELAI);
 }
 
 ISR(INT0_vect) {
     _delay_ms(DELAI);
-    if(isButtonPressed())
+    if(PIND & (1<<PIND2))
         gBoutonPoussoir = 1;
     else
-        gBoutonPoussoir=0;
+        gBoutonPoussoir = 0;
+    EIFR |= (1 << INTF0) ;
 }
 
 
@@ -64,74 +61,57 @@ void initialisation()
     DDRB |= (1 << DDB0) | (1 << DDB1); 
     DDRD &= ~(1 << DDD2);
     EIMSK |= (1 << INT0) ;
-    EICRA |= (1<<ISC00) ;
+    EICRA |= (1<<ISC00);
     sei();
 }
-enum class Etat { INIT, GREEN, PAUSE, RED, END };
-int main()
-{ 
-    int compteurFinal=0;
-    Etat etat = Etat::INIT;
+void attendreMinuterie(){
+    while(gMinuterieExpiree==0){}
+}
+
+int main() {
     initialisation();
-    while(true){
-        switch (etat) {
-        case Etat::INIT: { //ETAT INIT commence si bouton acctionner, peut diviser dernier etat
-            while(gBoutonPoussoir==0){;}
-            while (gBoutonPoussoir == 1 && counter<120) {
-                partirMinuterie(7813);
-                while(gMinuterieExpiree==0){;}
-                gMinuterieExpiree=0;
-            }      
-            compteurFinal=counter;
-            etat=Etat::GREEN;
-            break;
-        case Etat::GREEN:
-            for(int i=0;i<10;i++){
-                    partirMinuterie( 7813/25);
-                    while(gMinuterieExpiree==0)
-                        allumerVert();
-                    gMinuterieExpiree=0;
-                    partirMinuterie( 7813/25);
-                    while(gMinuterieExpiree==0)
-                        eteindre();
-                    gMinuterieExpiree=0;
-                }
-                etat=Etat::PAUSE;
-                gMinuterieExpiree=0;
-                break;
-        case Etat::PAUSE:
-            partirMinuterie(7813*2);
-            while(gMinuterieExpiree==0){;}
-                if( gMinuterieExpiree==1){
-                    etat=Etat::RED;
-                    gMinuterieExpiree=0;
-                    }
-            break;
-        case Etat::RED:
-        for(int i=0;i<compteurFinal/2;i++){
-            partirMinuterie( 7813/4);
-            while(gMinuterieExpiree==0)
-                allumerRouge();
-            gMinuterieExpiree=0;
-            partirMinuterie(7813/4);
-            while(gMinuterieExpiree==0)
-                eteindre();
-            gMinuterieExpiree=0;
+    while (true) {
+        int counter=0;
+        // Attente de l'appui sur le bouton-poussoir
+        while (gBoutonPoussoir==0) {}
+
+        // Compteur qui incrémente 10 fois par seconde
+        while (counter < 120 && gBoutonPoussoir==1) {
+            partirMinuterie(MINUTERIE_1S / 10);
+            attendreMinuterie();
+            counter++;
         }
-        etat=Etat::END;
-                break;
-        case Etat::END:
-            partirMinuterie(7813);
-            while (gMinuterieExpiree == 0)
-                    allumerVert();
+        // Clignotement vert pendant 1/2 seconde
+        for(int i=0; i<10; i++) {
+            allumerVert();
+            partirMinuterie(MINUTERIE_1S / 25);
+            attendreMinuterie();
             eteindre();
-            gMinuterieExpiree=0;
-            gBoutonPoussoir=0;
-            counter=0;
-            etat=Etat::INIT;
-            break;
+            partirMinuterie(MINUTERIE_1S / 25);
+           attendreMinuterie();
         }
 
+        // Attente de 2 secondes
+        partirMinuterie(7813 * 2);
+        attendreMinuterie();
+
+        // Clignotement rouge (compteur / 2) fois au rythme de 2 fois par seconde
+        for (int i = 0; i < counter / 2; ++i) {
+            allumerRouge();
+            partirMinuterie(MINUTERIE_1S / 4);
+            attendreMinuterie();
+            eteindre();
+            partirMinuterie(MINUTERIE_1S / 4);
+            attendreMinuterie();
+        }
+
+        // Lumière verte pendant 1 seconde
+        allumerVert();
+        partirMinuterie(MINUTERIE_1S);
+        attendreMinuterie();
+        eteindre();
+        gMinuterieExpiree=0;
     }
-    }
+
+        return 0;
 }

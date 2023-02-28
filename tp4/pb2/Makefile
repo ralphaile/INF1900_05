@@ -23,13 +23,13 @@ MCU=atmega324pa
 
 # Nom de votre projet
 # (utilisez un seul mot, exemple: 'monprojet')
-PROJECTNAME=TP3_pb1
+PROJECTNAME=pb2
 
 # Fichiers sources
 # Utilisez le suffixe .cpp pour les fichiers C++
 # Listez tous les fichiers a compiler, separes par
 # un espace. exemple: 'tp1.c tp2.cpp':
-PRJSRC= TP3_pb1.cpp
+PRJSRC= pb2.cpp
 
 # Inclusions additionnels (ex: -I/path/to/mydir)
 INC=

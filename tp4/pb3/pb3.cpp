@@ -34,9 +34,8 @@ int main()
 {
     
     initialisation();
-    ajustementPwm(top,highPeriod);
     while(1){
-    
+    ajustementPwm(top,highPeriod);
     }
 return 0;
 }

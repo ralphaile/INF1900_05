@@ -38,68 +38,47 @@ enum class Etat{ INIT, SECOND_CLICK, TROISIEME_CLICK };
 const int DELAI=20;
 const int TEMPS_ALLUMER=2000;
 
-Etat premierClick(){
+void attendreClick(){
     while(!(PIND & (1 << PIND2))){
-        _delay_ms(DELAI);
-    }
-    while(PIND & (1 << PIND2)){
-        _delay_ms(DELAI);
-    }
-    Etat nextEtat = Etat::SECOND_CLICK;
-    return nextEtat;
-}
-
-Etat secondClick(){
-    while(!(PIND & (1 << PIND2))){
-        _delay_ms(DELAI);
-    }
-    while(PIND & (1 << PIND2)){
-        _delay_ms(DELAI);
-    }
-    Etat nextEtat = Etat::TROISIEME_CLICK;
-    return nextEtat;
-}
-
-Etat troisiemeClick(){
-     while(!(PIND & (1 << PIND2))){
-        _delay_ms(DELAI);
-    }
-    int compteur = 2;
-        while (PIND & (1 << 2))
-        {
             _delay_ms(DELAI);
-            compteur++;
-            if (compteur == 3)
-            {
-                PORTA |= (1 << PORTA0);
-                _delay_ms(TEMPS_ALLUMER);
-                PORTA &= ~(1 << PORTA0);
-            }
-        }
-    Etat nextEtat= Etat::INIT;
-    return nextEtat;
+    }
 }
+void attendreRelache(Etat etat){//On attend que le bouton est relache, mais si l'etat apres le click est l'etat initial donc on doit allumer la DEL pour 2 secondes.
+    if(etat== Etat::INIT){
+        PORTA |= (1 << PORTA0);
+        _delay_ms(TEMPS_ALLUMER);
+        PORTA &= ~(1 << PORTA0);
+    }
+    while((PIND & (1 << PIND2))){
+            _delay_ms(DELAI);
+    }
+}
+
 int main()
 {
-    DDRA |= (1 << DDA0);
+    DDRA |= (1 << DDA0)|(1<<DDA1);
     DDRD &= ~(1 << DDD2);
     Etat etat = Etat::INIT;
-    PORTA &= ~(PORTA);
 
-    for (;;) // boucle sans fin
+    while(true) // boucle sans fin
     {
-
         switch (etat)
         {
         case Etat::INIT:
             PORTA &= ~(PORTA);
-            etat=premierClick();
+            attendreClick();
+            etat = Etat::SECOND_CLICK;
+            attendreRelache(etat);
             break;
         case Etat::SECOND_CLICK:
-            etat=secondClick();
+            attendreClick();
+            etat = Etat::TROISIEME_CLICK;
+            attendreRelache(etat);
             break;
         case Etat::TROISIEME_CLICK:
-            etat=troisiemeClick();
+            attendreClick();
+            etat = Etat::INIT;
+            attendreRelache(etat);
             break;
         }
     }

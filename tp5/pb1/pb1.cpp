@@ -30,15 +30,6 @@ int main()
     initialisation();
     uint8_t mot []= "*P*O*L*Y*T*E*C*H*N*I*Q*U*E* *M*O*N*T*R*E*A*L*";
     Memoire24CXXX memoir;
-    // for(int i=0;i<46;i++){
-    //     memoir.ecriture(0x0000+i,mot[i]);
-    //     _delay_ms(10);
-    //     uint8_t tmp= memoir.lecture(0x0000+i,mot);
-    //     if(tmp!=mot[i]){
-    //         allumerRouge();
-    //         return 0;
-    //     }
-    // }
     memoir.ecriture(0x0000,mot,sizeof(mot)-1);
     _delay_ms(10);
     uint8_t tmp [sizeof(mot)];

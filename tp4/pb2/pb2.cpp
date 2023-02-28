@@ -72,8 +72,7 @@ int main()
         eteindre(); // turn off red light
         _delay_ms(100);
   }
-    partirMinuterie(7813);
-//initialisation();
+partirMinuterie(7813);
     do {
 // attendre qu'une des deux variables soit modifiée
 // par une ou l'autre des interruptions.

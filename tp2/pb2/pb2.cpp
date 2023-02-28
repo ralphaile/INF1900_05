@@ -33,7 +33,8 @@
 #define F_CPU 8000000UL
 #include <util/delay.h>
 #include <avr/io.h>
-
+const int DELAI=10;
+enum class Etat { COULEUR_ETEINT, COULEUR_ROUGE, COULEUR_VERT };
 
 void eteindre() {
     PORTA &= ~(PORTA);
@@ -47,49 +48,49 @@ void allumerVert() {
     eteindre();
     PORTA |= (1 << PORTA0);
 }
-const int DELAI=10;
-enum class Etat { COULEUR_ETEINT, COULEUR_ROUGE, COULEUR_VERT };
+void allumerAmbre(){
+    _delay_ms(DELAI);
+    allumerVert();
+    _delay_ms(DELAI);
+    allumerRouge();
+}
 int main()
 {
 
     DDRA |= (1 << DDA0) | (1 << DDA1); 
     DDRD &= ~(1 << DDD2);
     Etat etat = Etat::COULEUR_ROUGE; 
-    allumerRouge();
 
-    for (;;)
+    while(true)
     {
 
         switch (etat) {
             case Etat::COULEUR_ROUGE:
                 allumerRouge();
-                while (PIND & 0x04)
+                while ((PIND & (1 << PIND2)))//Tant que le boutton est appuyé la couleur est ambre, quand il est relaché c'est vert
                 {
-                    _delay_ms(DELAI);
-                    allumerVert();
-                    _delay_ms(DELAI);
-                    allumerRouge();
-                    if (!(PIND & 0x04))
+                    allumerAmbre();
+                    if (!(PIND & (1 << PIND2)))
                         etat = Etat::COULEUR_VERT;
                 }
                 break;
             case Etat::COULEUR_VERT:
                 allumerVert();
-                while (PIND & 0x04)
+                while ((PIND & (1 << PIND2)))//Tant que le boutton est appuyé la couleur est rouge, quand il est relaché c'est eteint
                 {
                     _delay_ms(DELAI);
                     allumerRouge();
-                    if (!(PIND & 0x04))
+                    if (!(PIND & (1 << PIND2)))
                         etat = Etat::COULEUR_ETEINT;
                 }
                 break;
             case Etat::COULEUR_ETEINT:
                 eteindre();
-                while (PIND & 0x04)
+                while ((PIND & (1 << PIND2)))//Tant que le boutton est appuyé la couleur est verte, quand il est relaché c'est rouge
                 {
                     _delay_ms(DELAI);
                     allumerVert();
-                    if (!(PIND & 0x04))
+                    if (!(PIND & (1 << PIND2)))
                         etat = Etat::COULEUR_ROUGE;
                 }
                 break;
